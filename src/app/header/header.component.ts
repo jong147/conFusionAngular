@@ -7,6 +7,7 @@ import { LoginComponent } from '../login/login.component';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 export class HeaderComponent implements OnInit {
 
   constructor(public dialog: MatDialog ) { }
