@@ -8,7 +8,7 @@ import { DishService } from '../services/dish.service';
   styleUrls: ['./menu.component.scss']
 })
 
-export class MenuComponent implements OnInit{
+export class MenuComponent implements OnInit {
 
   dishes: Dish[];
 
@@ -21,8 +21,7 @@ export class MenuComponent implements OnInit{
   constructor(private dishService: DishService) { }
 
   ngOnInit() {
-    this.dishService.getDishes()
-    .then(dishes => this.dishes = dishes);
-   }
+    this.dishService.getDishes().subscribe(dishes => this.dishes = dishes);
+  }
 
 }
