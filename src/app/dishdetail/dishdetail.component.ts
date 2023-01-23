@@ -17,7 +17,7 @@ import { switchMap } from 'rxjs/operators';
 
 export class DishdetailComponent implements OnInit {
 
-  @ViewChild('cform')  commentFormDirective: any;
+  @ViewChild('cform') commentFormDirective: any;
   commentForm: FormGroup;
   comment: Comment;
 
@@ -27,6 +27,7 @@ export class DishdetailComponent implements OnInit {
   next: string;
   // Prepare today's date for the comment
   today: Date = new Date();
+  errMess: string;
 
   formErrors: any = {
     'author': '',
@@ -35,14 +36,14 @@ export class DishdetailComponent implements OnInit {
 
   validationMessages: any = {
     'author': {
-      'required':      'Name is required.',
-      'minlength':     'Name must be at least 2 characters long.',
-      'maxlength':     'Name cannot be more than 50 characters long.'
+      'required': 'Name is required.',
+      'minlength': 'Name must be at least 2 characters long.',
+      'maxlength': 'Name cannot be more than 50 characters long.'
     },
     'comment': {
-      'required':      'Comment is required.',
-      'minlength':     'Comment must be at least 2 characters long.',
-      'maxlength':     'Comment cannot be more than 500 characters long.'
+      'required': 'Comment is required.',
+      'minlength': 'Comment must be at least 2 characters long.',
+      'maxlength': 'Comment cannot be more than 500 characters long.'
     }
   };
 
@@ -51,20 +52,23 @@ export class DishdetailComponent implements OnInit {
     private location: Location,
     private fb: FormBuilder,
     @Inject('BaseURL') public baseURL: any,) {
-      this.createForm();
-     }
+    this.createForm();
+  }
 
   ngOnInit() {
-    this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+    this.dishservice.getDishIds().subscribe({
+      next: dishIds => this.dishIds = dishIds,
+      error: errmess => this.errMess = <any>errmess
+    })
     this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-    .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
   }
 
   createForm() {
     this.commentForm = this.fb.group({
       rating: 5,
-      comment: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(500)] ],
-      author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)] ]
+      comment: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(500)]],
+      author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]]
     });
     this.commentForm.valueChanges
       .subscribe(data => this.onValueChanged(data));

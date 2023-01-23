@@ -23,9 +23,13 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <div [hidden]="dish">
+  <div [hidden]="dish || errMess">
     <mat-spinner></mat-spinner>
     <h4>Loading . . . Please Wait</h4>
+  </div>
+  <div fxFlex="40" *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
   </div>
 
   <div fxFlex="40">
@@ -64,15 +68,19 @@
           </mat-form-field>
         </div>
         <div fxFlexFill>
-        <button type="submit" mat-button class="background-primary text-floral-white" style="margin-top: 2rem;"
-          [disabled]="commentForm.invalid">Submit</button>
+          <button type="submit" mat-button class="background-primary text-floral-white" style="margin-top: 2rem;"
+            [disabled]="commentForm.invalid">Submit</button>
         </div>
       </form>
     </div>
   </div>
-  <div [hidden]="dish">
+  <div [hidden]="dish || errMess">
     <mat-spinner></mat-spinner>
     <h4>Loading . . . Please Wait</h4>
+  </div>
+  <div fxFlex="40" *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
   </div>
 
 </div>
