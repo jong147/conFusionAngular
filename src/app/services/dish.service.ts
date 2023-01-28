@@ -18,16 +18,20 @@ export class DishService {
 
   getDishes(): Observable<Dish[]> {
     return this.http.get<Dish[]>(baseURL + 'dishes')
+      .pipe(delay(2000))
       .pipe(catchError(this.processHTTPMsgService.handleError));
   }
 
   getDish(id: number): Observable<Dish> {
     return this.http.get<Dish>(baseURL + 'dishes/' + id)
+      .pipe(delay(2000))
       .pipe(catchError(this.processHTTPMsgService.handleError));
   }
 
   getFeaturedDish(): Observable<Dish> {
-    return this.http.get<Dish[]>(baseURL + 'dishees?featured=true').pipe(map(dishes => dishes[0]))
+    return this.http.get<Dish[]>(baseURL + 'dishes?featured=true').pipe(map(dishes => dishes[0]))
+    //remove delay in production
+      .pipe(delay(2000))
       .pipe(catchError(this.processHTTPMsgService.handleError));
   }
 
